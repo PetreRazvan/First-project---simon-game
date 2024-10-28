@@ -20,12 +20,19 @@ function nextSequence() {
 	var randomChosenColour = buttonColours[randomNumber];
 	gamePattern.push(randomChosenColour);
 	userClickedPattern = [];
-	$("." + randomChosenColour).attr("id", randomChosenColour);
-	setInterval(function() {
-		$("." + randomChosenColour).removeAttr("id", randomChosenColour);
-	}, 800);
-	var audio = new Audio("sounds/" + randomChosenColour + ".mp3");
-	audio.play();
+	var intervalId = setInterval(function() {
+		if (i === gamePattern.length) {
+			clearInterval(intervalId);
+		}
+		$("." + gamePattern[i]).attr("id", gamePattern[i]);
+		setInterval(function() {
+			$("." + gamePattern[i]).removeAttr("id", gamePattern[i]);
+		}, 800);
+		var audio = new Audio("sounds/" + gamePattern[i] + ".mp3");
+		audio.play();
+		i++;
+	}, 1000);
+	i = 0;
 	level++
 	score = level - 1;
 	$(".score").text("Current Score: " + score);
